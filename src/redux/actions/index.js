@@ -1,4 +1,3 @@
-// Coloque aqui suas actions
 const SAVE_EMAIL = 'SAVE_EMAIL';
 const SAVE_WALLET = 'SAVE_WALLET';
 

@@ -19,11 +19,6 @@ class Login extends React.Component {
     dispatch(emailAction(email));
     history.push('/carteira');
   };
-  // handleChange = ({ target }) => {
-  //   this.setState({
-  //     [target.name]: target.value,
-  //   });
-  // };
 
   render() {
     const { email, password } = this.state;

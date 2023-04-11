@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 class WalletForm extends Component {
   render() {
-    console.log(this.props);
     const { wallet } = this.props;
     const { currencies } = wallet;
     return (
@@ -20,19 +19,16 @@ class WalletForm extends Component {
           placeholder="descrição da despesa"
         />
         <select data-testid="currency-input">
-          {/* <option selected disabled>Moeda...</option> */}
           {currencies && currencies.map((element, index) => (
             <option key={ index }>{element}</option>
           ))}
         </select>
         <select data-testid="method-input">
-          {/* <option selected disabled>Pagamento...</option> */}
           <option>Dinheiro</option>
           <option>Cartão de crédito</option>
           <option>Cartão de débito</option>
         </select>
         <select data-testid="tag-input">
-          {/* <option selected disabled>Categoria...</option> */}
           <option>Alimentação</option>
           <option>Lazer</option>
           <option>Trabalho</option>
@@ -46,9 +42,7 @@ class WalletForm extends Component {
 
 WalletForm.propTypes = {
   wallet: PropTypes.shape({
-    currencies: PropTypes.shape({
-      map: PropTypes.func.isRequired,
-    }).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };
 
