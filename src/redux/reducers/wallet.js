@@ -2,7 +2,7 @@
 import { INITIAL_STATE } from './index';
 import { SAVE_WALLET } from '../actions';
 
-const wallet = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE.wallet, action) => {
   switch (action.type) {
   case SAVE_WALLET:
     return {

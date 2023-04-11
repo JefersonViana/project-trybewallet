@@ -37,6 +37,7 @@ class Login extends React.Component {
           data-testid="email-input"
           placeholder="Email"
           name="email"
+          value={ email }
           onChange={ ({ target }) => this.setState({ [target.name]: target.value }) }
         />
         <input
@@ -44,6 +45,7 @@ class Login extends React.Component {
           data-testid="password-input"
           placeholder="Password"
           name="password"
+          value={ password }
           onChange={ ({ target }) => this.setState({ [target.name]: target.value }) }
         />
         <button
