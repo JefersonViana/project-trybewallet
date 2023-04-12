@@ -43,7 +43,6 @@ class WalletForm extends Component {
     const { object, expenses } = wallet;
     const { exchangeRates } = object;
     const { value, description, currency, method, tag } = this.state;
-    // const newQuotation = Number(value) * Number(exchangeRates[currency].ask);
     const filter = expenses.filter(({ id }) => id !== object.id);
     const newExpense = {
       id: object.id,
@@ -106,7 +105,7 @@ class WalletForm extends Component {
           data-testid="currency-input"
         >
           {currencies && currencies.map((element, index) => (
-            <option key={ index }>{element}</option>
+            <option key={ index } value={ element }>{element}</option>
           ))}
         </select>
         <select
@@ -115,9 +114,9 @@ class WalletForm extends Component {
           value={ method }
           onChange={ (event) => this.handleChange(event) }
         >
-          <option>Dinheiro</option>
-          <option>Cartão de crédito</option>
-          <option>Cartão de débito</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de crédito">Cartão de crédito</option>
+          <option value="Cartão de débito">Cartão de débito</option>
         </select>
         <select
           data-testid="tag-input"
@@ -155,7 +154,7 @@ WalletForm.propTypes = {
     object: PropTypes.shape({
       value: PropTypes.string.isRequired,
       exchangeRates: PropTypes.shape(PropTypes.object.isRequired),
-      id: PropTypes.string.isRequired,
+      id: PropTypes.string,
     }).isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,

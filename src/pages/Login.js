@@ -4,14 +4,10 @@ import { connect } from 'react-redux';
 import { emailAction } from '../redux/actions';
 
 class Login extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
+  state = {
+    email: '',
+    password: '',
+  };
 
   handleClick = () => {
     const { history, dispatch } = this.props;
@@ -58,8 +54,8 @@ class Login extends React.Component {
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
+  }),
   dispatch: PropTypes.func.isRequired,
-};
+}.isRequired;
 
 export default connect()(Login);

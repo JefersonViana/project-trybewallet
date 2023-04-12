@@ -7,8 +7,6 @@ class Table extends Component {
   handleEdit = (objetoExpense) => {
     const { dispatch } = this.props;
     dispatch(editExpenseAction(objetoExpense));
-    // console.log(objetoExpense);
-    // console.log(arrayExpense);
   };
 
   handleDelete = (id, expenses, convertedValue) => {
