@@ -1,12 +1,15 @@
-import { walletAction } from '../actions';
+import { expenseAction } from '../actions';
 
-const coinFetch = () => async (dispatch) => {
+const coinFetch = (object) => async (dispatch) => {
   try {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const data = await response.json();
-    const arrayTheKeys = Object.keys(data);
-    const keys = [arrayTheKeys[0], ...arrayTheKeys.splice(2)];
-    dispatch(walletAction(keys));
+    const valueInBrl = Number(data[object.currency].ask) * Number(object.value);
+
+    dispatch(expenseAction({
+      ...object,
+      exchangeRates: data,
+    }, valueInBrl));
   } catch (error) {
     console.log(error);
   }

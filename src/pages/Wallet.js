@@ -3,12 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import WalletForm from '../components/WalletForm';
-import coinFetch from '../redux/reducers/coinFetch';
+import coinAllFetch from '../redux/reducers/coinAllFetch';
 
 class Wallet extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(coinFetch(dispatch));
+    dispatch(coinAllFetch(dispatch));
   }
 
   render() {
