@@ -8,7 +8,7 @@ class Header extends Component {
     return (
       <div>
         <p data-testid="email-field">{ user.email }</p>
-        <p data-testid="total-field">{ wallet.priceTotal.toFixed(2) }</p>
+        <p data-testid="total-field">{ wallet.priceTotal }</p>
         <p data-testid="header-currency-field">BRL</p>
       </div>
     );
@@ -20,7 +20,7 @@ Header.propTypes = {
     email: PropTypes.string.isRequired,
   }).isRequired,
   wallet: PropTypes.shape({
-    priceTotal: PropTypes.number.isRequired,
+    priceTotal: PropTypes.string.isRequired,
   }).isRequired,
 };
 
