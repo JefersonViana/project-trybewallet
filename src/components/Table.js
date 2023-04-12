@@ -1,26 +1,24 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteExpenseAction } from '../redux/actions';
+import { deleteExpenseAction, editExpenseAction } from '../redux/actions';
 
 class Table extends Component {
-  // state = {
-  //   expensesStateLocal: [],
-  // };
+  handleEdit = (objetoExpense) => {
+    const { dispatch } = this.props;
+    dispatch(editExpenseAction(objetoExpense));
+    // console.log(objetoExpense);
+    // console.log(arrayExpense);
+  };
 
   handleDelete = (id, expenses, convertedValue) => {
     const { dispatch } = this.props;
     const filter = expenses.filter((element) => element.id !== id);
-    // this.setState({
-    //   expensesStateLocal: filter,
-    // });
     dispatch(deleteExpenseAction(filter, convertedValue));
   };
 
   render() {
     const { expenses } = this.props;
-    // const { expensesStateLocal } = this.state;
-    // const array = expensesStateLocal.length >= 1 ? expensesStateLocal : expenses;
     return (
       <table>
         <thead>
@@ -57,6 +55,14 @@ class Table extends Component {
                   <td>Real</td>
                   <td>
                     <button
+                      data-testid="edit-btn"
+                      type="button"
+                      onClick={ () => this
+                        .handleEdit(element) }
+                    >
+                      Editar
+                    </button>
+                    <button
                       data-testid="delete-btn"
                       type="button"
                       onClick={ () => this
@@ -76,9 +82,7 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  expenses: PropTypes.shape({
-    map: PropTypes.func.isRequired,
-  }).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

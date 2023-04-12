@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import coinFetch from '../redux/reducers/coinFetch';
+import { editUpdateAction } from '../redux/actions';
 
 class WalletForm extends Component {
   constructor() {
@@ -37,6 +38,42 @@ class WalletForm extends Component {
     });
   };
 
+  handleEditor = () => {
+    const { wallet, dispatch } = this.props;
+    const { object, expenses } = wallet;
+    const { exchangeRates } = object;
+    // console.log(object);
+    const { value, description, currency, method, tag } = this.state;
+    const newQuotation = Number(value) * Number(exchangeRates[currency].ask);
+    const filter = expenses.filter(({ id }) => id !== object.id);
+    const newExpense = {
+      id: object.id,
+      value,
+      currency,
+      description,
+      method,
+      tag,
+      exchangeRates,
+    };
+    const newArrayExpenses = [...filter, newExpense].sort((a, b) => {
+      const magic = -1;
+      if (Number(a.id) > Number(b.id)) {
+        return +1;
+      }
+      if (Number(a.id) < Number(b.id)) {
+        return magic;
+      }
+      return 0;
+    });
+    let priceTotal = 0;
+    newArrayExpenses.forEach(({ value, currency, exchangeRates }) => {
+      priceTotal += Number(value) * Number(exchangeRates[currency].ask);
+    });
+    // priceTotal += newQuotation;
+    dispatch(editUpdateAction(priceTotal.toFixed(2), newArrayExpenses));
+    // console.log(priceTotal.toFixed(2), newArrayExpenses);
+  };
+
   handleChange = ({ target }) => {
     this.setState({
       [target.name]: target.value,
@@ -46,7 +83,8 @@ class WalletForm extends Component {
   render() {
     const { wallet } = this.props;
     const { value, description, currency, method, tag } = this.state;
-    const { currencies } = wallet;
+    // console.log(wallet);
+    const { currencies, editor } = wallet;
     return (
       <div>
         <input
@@ -97,9 +135,16 @@ class WalletForm extends Component {
           <option>Transporte</option>
           <option>Saúde</option>
         </select>
-        <button onClick={ this.handleClick }>
-          Adicionar despesa
-        </button>
+        { editor ? (
+          <button
+            type="button"
+            onClick={ () => this.handleEditor() }
+          >
+            Editar despesa
+          </button>
+        ) : (
+          <button onClick={ this.handleClick }>Adicionar despesa</button>
+        )}
       </div>
     );
   }
@@ -109,6 +154,10 @@ WalletForm.propTypes = {
   wallet: PropTypes.shape({
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     idToEdit: PropTypes.number.isRequired,
+    editor: PropTypes.bool.isRequired,
+    object: PropTypes.shape({
+      value: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };

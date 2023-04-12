@@ -1,8 +1,9 @@
 const SAVE_EMAIL = 'SAVE_EMAIL';
 const SAVE_WALLET = 'SAVE_WALLET';
 const SAVE_EXPENSE = 'SAVE_EXPENSE';
-const SAVE_COIN = 'SAVE_COIN';
+const EDIT_UPDATE = 'EDIT_UPDATE';
 const DELETE_EXPENSE = 'DELETE_EXPENSE';
+const EDIT_EXPENSE = 'EDIT_EXPENSE';
 
 const emailAction = (email) => ({
   type: SAVE_EMAIL,
@@ -15,9 +16,15 @@ const deleteExpenseAction = (expenses, convertedValue) => ({
   convertedValue,
 });
 
-const coinAction = (email) => ({
-  type: SAVE_COIN,
-  payload: email,
+const editExpenseAction = (objectExpense) => ({
+  type: EDIT_EXPENSE,
+  object: objectExpense,
+});
+
+const editUpdateAction = (priceTotal, newArrayExpenses) => ({
+  type: EDIT_UPDATE,
+  priceTotal,
+  newArrayExpenses,
 });
 
 const walletAction = (wallet) => ({
@@ -35,11 +42,13 @@ export {
   emailAction,
   walletAction,
   expenseAction,
-  coinAction,
+  editUpdateAction,
   deleteExpenseAction,
+  editExpenseAction,
   SAVE_EMAIL,
   SAVE_WALLET,
   SAVE_EXPENSE,
-  SAVE_COIN,
+  EDIT_UPDATE,
   DELETE_EXPENSE,
+  EDIT_EXPENSE,
 };
