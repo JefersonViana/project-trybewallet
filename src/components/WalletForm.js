@@ -42,9 +42,8 @@ class WalletForm extends Component {
     const { wallet, dispatch } = this.props;
     const { object, expenses } = wallet;
     const { exchangeRates } = object;
-    // console.log(object);
     const { value, description, currency, method, tag } = this.state;
-    const newQuotation = Number(value) * Number(exchangeRates[currency].ask);
+    // const newQuotation = Number(value) * Number(exchangeRates[currency].ask);
     const filter = expenses.filter(({ id }) => id !== object.id);
     const newExpense = {
       id: object.id,
@@ -66,12 +65,10 @@ class WalletForm extends Component {
       return 0;
     });
     let priceTotal = 0;
-    newArrayExpenses.forEach(({ value, currency, exchangeRates }) => {
-      priceTotal += Number(value) * Number(exchangeRates[currency].ask);
+    newArrayExpenses.forEach(({ value: valor, currency: moeda, exchangeRates: rate }) => {
+      priceTotal += Number(valor) * Number(rate[moeda].ask);
     });
-    // priceTotal += newQuotation;
     dispatch(editUpdateAction(priceTotal.toFixed(2), newArrayExpenses));
-    // console.log(priceTotal.toFixed(2), newArrayExpenses);
   };
 
   handleChange = ({ target }) => {
@@ -83,7 +80,6 @@ class WalletForm extends Component {
   render() {
     const { wallet } = this.props;
     const { value, description, currency, method, tag } = this.state;
-    // console.log(wallet);
     const { currencies, editor } = wallet;
     return (
       <div>
@@ -153,10 +149,13 @@ class WalletForm extends Component {
 WalletForm.propTypes = {
   wallet: PropTypes.shape({
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    expenses: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     idToEdit: PropTypes.number.isRequired,
     editor: PropTypes.bool.isRequired,
     object: PropTypes.shape({
       value: PropTypes.string.isRequired,
+      exchangeRates: PropTypes.shape(PropTypes.object.isRequired),
+      id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,

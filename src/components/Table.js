@@ -36,13 +36,13 @@ class Table extends Component {
         </thead>
         <tbody>
           { expenses && (
-            expenses.map((element, index) => {
+            expenses.map((element) => {
               const convertedValue = (Number(element.exchangeRates[element.currency].ask)
               * Number(element.value)).toFixed(2);
               const cambio = Number(element.exchangeRates[element.currency].ask)
                 .toFixed(2);
               return (
-                <tr key={ index }>
+                <tr key={ element.id }>
                   <td>{element.description}</td>
                   <td>{element.tag}</td>
                   <td>{element.method}</td>
