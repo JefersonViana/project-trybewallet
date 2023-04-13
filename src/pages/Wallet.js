@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import WalletForm from '../components/WalletForm';
-import coinAllFetch from '../redux/reducers/coinAllFetch';
+// import coinAllFetch from '../redux/reducers/coinAllFetch';
 import Table from '../components/Table';
 
 class Wallet extends React.Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(coinAllFetch(dispatch));
-  }
+  // componentDidMount() {
+  //   const { dispatch } = this.props;
+  //   dispatch(coinAllFetch(dispatch));
+  // }
 
   render() {
     return (
@@ -23,8 +23,8 @@ class Wallet extends React.Component {
   }
 }
 
-Wallet.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+// Wallet.propTypes = {
+//   dispatch: PropTypes.func.isRequired,
+// };
 
 export default connect()(Wallet);

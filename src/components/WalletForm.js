@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import coinFetch from '../redux/reducers/coinFetch';
 import { editUpdateAction } from '../redux/actions';
+import coinAllFetch from '../redux/reducers/coinAllFetch';
 
 class WalletForm extends Component {
   constructor() {
@@ -15,6 +16,11 @@ class WalletForm extends Component {
       method: 'Dinheiro',
       tag: 'Alimentação',
     };
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(coinAllFetch(dispatch));
   }
 
   handleClick = () => {
@@ -53,16 +59,17 @@ class WalletForm extends Component {
       tag,
       exchangeRates,
     };
-    const newArrayExpenses = [...filter, newExpense].sort((a, b) => {
-      const magic = -1;
-      if (Number(a.id) > Number(b.id)) {
-        return +1;
-      }
-      if (Number(a.id) < Number(b.id)) {
-        return magic;
-      }
-      return 0;
-    });
+    const newArrayExpenses = [newExpense, ...filter];
+    // .sort((a, b) => {
+    //   const magic = -1;
+    //   if (Number(a.id) > Number(b.id)) {
+    //     return +1;
+    //   }
+    //   if (Number(a.id) < Number(b.id)) {
+    //     return magic;
+    //   }
+    //   return 0;
+    // });
     let priceTotal = 0;
     newArrayExpenses.forEach(({ value: valor, currency: moeda, exchangeRates: rate }) => {
       priceTotal += Number(valor) * Number(rate[moeda].ask);
