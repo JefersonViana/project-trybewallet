@@ -1,4 +1,4 @@
-import { fireEvent, screen, act } from '@testing-library/react';
+import { fireEvent, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 // import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import Wallet from '../pages/Wallet';
@@ -119,7 +119,7 @@ describe('Testando o componente "Table"', () => {
     };
     renderWithRouterAndRedux(<Wallet />, { initialState: returnStateUpdate });
     const priceTotal = await screen.findByTestId('total-field');
-    console.log(priceTotal);
+
     expect(priceTotal.innerHTML).toBe('18.77');
     expect(priceTotal).toBeInTheDocument();
   });
@@ -254,5 +254,27 @@ describe('Testando o componente "Table"', () => {
     const tdValueNotInDocument = screen.queryByRole('cell', { name: /6\.00/i });
 
     expect(tdValueNotInDocument).not.toBeInTheDocument();
+  });
+  test('Testando catch coinAllFetch', async () => {
+    global.fetch.mockImplementationOnce(() => Promise.reject(new Error('URL inválida')));
+    renderWithRouterAndRedux(<Wallet />);
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const mensagem = 'Error 404';
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(mensagem);
+    });
+  });
+  test('Testando catch coinFetch', async () => {
+    renderWithRouterAndRedux(<Wallet />);
+    const btnAddExpense = screen.getByRole('button', { name: /Adicionar despesa/i });
+    expect(btnAddExpense).toBeInTheDocument();
+    global.fetch.mockImplementationOnce(() => Promise.reject(new Error('URL inválida')));
+    userEvent.click(btnAddExpense);
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const mensagem = 'Error 400';
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(mensagem);
+    });
   });
 });
